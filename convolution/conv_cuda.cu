@@ -41,9 +41,9 @@ int main(int argc, const char *argv[])
     else
         stbi_write_png(fout.c_str(), width, height, channels, out, width * channels);
 
-    delete image;
     cudaFree(dimg);
     cudaFree(out);
+    delete[] image, dimg, out;
 
     return 0;
 }

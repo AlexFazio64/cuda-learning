@@ -44,5 +44,7 @@ int main(int argc, char const *argv[])
     cudaFree(gB);
     cudaFree(gC);
 
+    delete[] gA, gB, gC;
+
     return 0;
 }

@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-const int N = 100;
+const int N = 300;
 const int COLS = 2 << 10;
 const int ROWS = 2 << 10;
 
@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
     cudaMallocManaged(&pic, ROWS * COLS * 3 * sizeof(unsigned char));
 
     dim3 threadsPerBlock(32, 32);
-    dim3 numBlocks(ROWS / threadsPerBlock.x + 1, COLS / threadsPerBlock.y + 1);
+    dim3 numBlocks(ceil(COLS / threadsPerBlock.x) + 1, ceil((ROWS) / threadsPerBlock.y) + 1);
 
     // initialize the matrices in a kernel
     init<<<numBlocks, threadsPerBlock>>>(current, next, ROWS, COLS);
@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
         transition<<<numBlocks, threadsPerBlock>>>(current, ROWS, COLS, next);
         cudaDeviceSynchronize();
 
-        if (i % 10 == 0)
+        if (i % 3 == 0)
         {
             linearize_jpg(current, pic);
             save_jpg(pic, f++);
@@ -74,12 +74,14 @@ int main(int argc, char const *argv[])
     printf("Time: %ld ms\nConverting and cleaning up...", end);
 
     // execute a cmd command to convert the images to a video
-    system("ffmpeg -hwaccel cuda -r 120 -i output\/\%d.jpg -c:v h264_nvenc -b:v 5M output\/heat.mp4 -y && .\\output\\heat.mp4");
+    system("ffmpeg -hwaccel cuda -r 30 -i output\/\%d.jpg -c:v h264_nvenc -b:v 5M output\/heat.mp4 -y && .\\output\\heat.mp4");
     // system("del output\\*.jpg");
 
     cudaFree(current);
     cudaFree(next);
     cudaFree(pic);
+
+    delete[] current, next, pic;
     return 0;
 }
 
