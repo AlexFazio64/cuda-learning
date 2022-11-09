@@ -1,0 +1,9 @@
+/**/*.lib
+/**/*.exp
+/**/*.exe
+
+.vscode/
+GPGPU.code-workspace
+
+/**/output/
+heatTransfer/original.cu
