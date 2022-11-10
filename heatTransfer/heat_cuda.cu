@@ -7,18 +7,19 @@
 #include <string>
 using namespace std;
 
-const int N = 300;
-const int COLS = 2 << 10;
+const int N = 20000;
 const int ROWS = 2 << 10;
+const int COLS = 2 << 10;
 
 __global__ void init(double *, double *, int, int);
 __global__ void transition(double *, int, int, double *);
+__global__ void linearize_jpg(double *, int, int, unsigned char *);
 
-void linearize_jpg(double *, unsigned char *);
 void save_jpg(unsigned char *, int);
 
 int main(int argc, char const *argv[])
 {
+    bool cache = argc > 1;
     // create 2 matrices of size WxH and initialize them to -22.0
     double *current;
     double *next;
@@ -26,6 +27,7 @@ int main(int argc, char const *argv[])
     cudaMallocManaged(&current, ROWS * COLS * sizeof(double));
     cudaMallocManaged(&next, ROWS * COLS * sizeof(double));
 
+    // create an array to store the linearized image
     unsigned char *pic;
     cudaMallocManaged(&pic, ROWS * COLS * 3 * sizeof(unsigned char));
 
@@ -56,13 +58,15 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < N; i++)
     {
         transition<<<numBlocks, threadsPerBlock>>>(current, ROWS, COLS, next);
-        cudaDeviceSynchronize();
 
-        if (i % 3 == 0)
+        if (i % 50 == 0 && cache)
         {
-            linearize_jpg(current, pic);
+            linearize_jpg<<<numBlocks, threadsPerBlock>>>(current, ROWS, COLS, pic);
+            cudaDeviceSynchronize();
             save_jpg(pic, f++);
+            printf("saved frame %d\n", f - 1);
         }
+        cudaDeviceSynchronize();
 
         // swap the matrices
         temp = current;
@@ -71,12 +75,15 @@ int main(int argc, char const *argv[])
     }
 
     long end = timeMillis() - start;
-    printf("Time: %ld ms\nConverting and cleaning up...", end);
+    printf("Time: %ld ms\nConverting and cleaning up...\n", end);
 
     // execute a cmd command to convert the images to a video
-    system("ffmpeg -hwaccel cuda -r 30 -i output\/\%d.jpg -c:v h264_nvenc -b:v 5M output\/heat.mp4 -y && .\\output\\heat.mp4");
-    // system("del output\\*.jpg");
-
+    if (cache)
+    {
+        system("ffmpeg -hwaccel cuda -r 60 -i output\/\%d.jpg -c:v h264_nvenc -b:v 5M output\/heat.mp4 -y && .\\output\\heat.mp4");
+        system("del output\\*.jpg");
+    }
+    
     cudaFree(current);
     cudaFree(next);
     cudaFree(pic);
@@ -86,31 +93,26 @@ int main(int argc, char const *argv[])
 }
 
 // function that converts the array linear array to a 3 channel jpg
-void linearize_jpg(double *current, unsigned char *pic)
+__global__ void linearize_jpg(double *current, int rows, int cols, unsigned char *pic)
 {
-    // find min and max in the array
-    double min = -22;
-    double max = 22;
+    int c = blockIdx.x * blockDim.x + threadIdx.x;
+    int r = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // normalize the array from 0 to 255
-    for (int i = 0; i < ROWS * COLS; i++)
+    // find min and max in the array
+    const double min = -22.0;
+    const double max = 22.0;
+
+    if (c < cols && r < rows)
     {
-        pic[i * 3] = (current[i] - min) / (max - min) * 255;
-        pic[i * 3 + 1] = 0;
-        pic[i * 3 + 2] = 0;
+        // normalize the value to 0-255
+        double val = (current[r * cols + c] - min) / (max - min) * 255;
+        pic[(r * cols + c) * 3] = val;
     }
 }
 
-// function to save the input array as a jpg image using stbi_write_jpg
-void save_jpg(unsigned char *pic, int frame_num)
-{
-    string filename = "output/" + to_string(frame_num) + ".jpg";
-    stbi_write_jpg(filename.c_str(), COLS, ROWS, 3, pic, 100);
-}
-
+// function that initializes the matrices to -22.0
 __global__ void init(double *m1, double *m2, int rows, int cols)
 {
-    // initialize the matrices to -22.0
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     int j = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -121,6 +123,7 @@ __global__ void init(double *m1, double *m2, int rows, int cols)
     }
 }
 
+// state transition function
 __global__ void transition(double *curr, int rows, int cols, double *out)
 {
     // get the current thread's index
@@ -150,60 +153,8 @@ __global__ void transition(double *curr, int rows, int cols, double *out)
     }
 }
 
-// function called transition that takes 2 matrices as input
-void transition(double **current, double **next)
+void save_jpg(unsigned char *pic, int frame_num)
 {
-    // starting from the 10th row apply the heat transfer equation
-    for (int i = 10; i < ROWS - 10; i++)
-    {
-        for (int j = 1; j < COLS - 2; j++)
-        {
-            // sum the cardinal directions in a cumulative variable and multiply by 4
-            double sum = 0;
-            sum += current[i][j - 1];
-            sum += current[i][j + 1];
-            sum += current[i - 1][j];
-            sum += current[i + 1][j];
-            sum *= 4;
-
-            // sum the diagonal directions in the sum variable and divide by 20
-            sum += current[i - 1][j - 1];
-            sum += current[i - 1][j + 1];
-            sum += current[i + 1][j - 1];
-            sum += current[i + 1][j + 1];
-            sum /= 20;
-
-            // set the current cell in the new matrix to the sum
-            next[i][j] = sum;
-        }
-    }
-}
-
-// function that creates a 1D array of size WxH copying the values from the input matrix
-void linearize_jpg(double **input, unsigned char *out)
-{
-    // find the min and max values in the matrix
-    double min = input[0][0];
-    double max = input[0][0];
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            if (input[i][j] < min)
-                min = input[i][j];
-            if (input[i][j] > max)
-                max = input[i][j];
-        }
-    }
-
-    // normalize the values in the matrix in the out array
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLS; j++)
-        {
-            out[(i * COLS + j) * 3] = static_cast<unsigned char>((input[i][j] - min) / (max - min) * 255);
-            out[(i * COLS + j) * 3 + 1] = 0;
-            out[(i * COLS + j) * 3 + 2] = 0;
-        }
-    }
+    string filename = "output/" + to_string(frame_num) + ".jpg";
+    stbi_write_jpg(filename.c_str(), COLS, ROWS, 3, pic, 100);
 }
