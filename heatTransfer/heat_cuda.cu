@@ -7,9 +7,9 @@
 #include <string>
 using namespace std;
 
-const int N = 20000;
-const int ROWS = 2 << 10;
-const int COLS = 2 << 10;
+const int N = 10000;
+const int ROWS = 1 << 12;
+const int COLS = 1 << 15;
 
 __global__ void init(double *, double *, int, int);
 __global__ void transition(double *, int, int, double *);
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
     cudaMallocManaged(&pic, ROWS * COLS * 3 * sizeof(unsigned char));
 
     dim3 threadsPerBlock(32, 32);
-    dim3 numBlocks(ceil(COLS / threadsPerBlock.x) + 1, ceil((ROWS) / threadsPerBlock.y) + 1);
+    dim3 numBlocks(COLS / threadsPerBlock.x + 1, ROWS / threadsPerBlock.y + 1);
 
     // initialize the matrices in a kernel
     init<<<numBlocks, threadsPerBlock>>>(current, next, ROWS, COLS);
@@ -58,6 +58,8 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < N; i++)
     {
         transition<<<numBlocks, threadsPerBlock>>>(current, ROWS, COLS, next);
+        if (!cache)
+            printf(".");
 
         if (i % 50 == 0 && cache)
         {
@@ -83,7 +85,7 @@ int main(int argc, char const *argv[])
         system("ffmpeg -hwaccel cuda -r 60 -i output\/\%d.jpg -c:v h264_nvenc -b:v 5M output\/heat.mp4 -y && .\\output\\heat.mp4");
         system("del output\\*.jpg");
     }
-    
+
     cudaFree(current);
     cudaFree(next);
     cudaFree(pic);
