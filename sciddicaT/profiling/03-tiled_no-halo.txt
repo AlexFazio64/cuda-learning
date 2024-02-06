@@ -1,0 +1,30 @@
+nvcc sciddicaT_tiled_no-halo.cu -o sciddicaT_tiled_no-halo -O3
+nvprof -s ./sciddicaT_tiled_no-halo ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+Dimensione Sz/Sh: 610x496
+Dimensione Sf: 3050x496
+==21621== NVPROF is profiling process 21621, command: ./sciddicaT_tiled_no-halo ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+colonne: 496
+Grid: 77x62
+Block: 8x8
+Elapsed time: 1.510000 [s]
+Releasing memory...
+==21621== Profiling application: ./sciddicaT_tiled_no-halo ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+==21621== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   60.56%  811.68ms      4000  202.92us  198.69us  458.02us  flowsComputationParallelized(int, int, double*, double*, double*, double, double)
+                   24.69%  330.95ms      4000  82.737us  79.073us  130.05us  widthUpdateParallelized(int, int, double*, double*, double*)
+                   13.17%  176.52ms      4000  44.129us  43.233us  51.040us  resetFlowsParallelized(int, int, double*)
+                    1.11%  14.917ms         2  7.4585ms  1.0253ms  13.892ms  [CUDA memcpy DtoH]
+                    0.47%  6.3205ms         3  2.1068ms  980.42us  4.3330ms  [CUDA memcpy HtoD]
+      API calls:   78.96%  1.37441s     12000  114.53us  4.2800us  839.48us  cudaDeviceSynchronize
+                   12.42%  216.25ms         3  72.083ms  135.96us  215.96ms  cudaMalloc
+                    7.10%  123.66ms     12000  10.305us  9.8010us  643.50us  cudaLaunchKernel
+                    1.42%  24.688ms         5  4.9375ms  1.2341ms  15.646ms  cudaMemcpy
+                    0.05%  800.62us         3  266.87us  220.92us  341.32us  cudaFree
+                    0.04%  668.97us       194  3.4480us     195ns  157.45us  cuDeviceGetAttribute
+                    0.00%  70.625us         2  35.312us  30.005us  40.620us  cuDeviceGetName
+                    0.00%  16.045us         2  8.0220us  3.6150us  12.430us  cuDeviceGetPCIBusId
+                    0.00%  2.1130us         4     528ns     247ns     972ns  cuDeviceGet
+                    0.00%  1.8860us         3     628ns     229ns     879ns  cuDeviceGetCount
+                    0.00%  1.1190us         2     559ns     442ns     677ns  cuDeviceTotalMem
+                    0.00%     725ns         2     362ns     268ns     457ns  cuDeviceGetUuid

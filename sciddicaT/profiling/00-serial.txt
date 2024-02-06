@@ -1,0 +1,5 @@
+g++ sciddicaT.cpp -o sciddicaT -O3
+./sciddicaT ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000 && md5sum ./tessina_output && cat ./data/tessina_header.txt ./tessina_output > .
+/tessina_output.qgis && rm ./tessina_output                                                                                                                                                  Elapsed time: 57.459000 [s]
+Releasing memory...
+8ed78fa13180c12b4d8aeec7ce6a362a  ./tessina_output

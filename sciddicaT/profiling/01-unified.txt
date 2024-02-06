@@ -1,0 +1,34 @@
+nvcc sciddicaT_unified.cu -o sciddicaT_unified -O3
+nvprof -s ./sciddicaT_unified ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+==20933== NVPROF is profiling process 20933, command: ./sciddicaT_unified ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+Dimensione Sz/Sh: 610x496
+Dimensione Sf: 3050x496
+colonne: 496
+Grid: 77x62
+Block: 8x8
+Elapsed time: 3.114000 [s]
+Releasing memory...
+==20933== Profiling application: ./sciddicaT_unified ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
+==20933== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   50.76%  1.07530s      4000  268.82us  262.79us  525.12us  flowsComputationParallelized(int, int, double, int*, int*, double*, double*, double*, double, double, int, int, 
+int, int)                                                                                                                                                                                                       41.17%  872.23ms      4000  218.06us  204.23us  238.72us  widthUpdateParallelized(int, int, double, int*, int*, double*, double*, double*, int, int, int, int)
+                    8.07%  170.88ms      4000  42.720us  41.472us  49.696us  resetFlowsParallelized(int, int, double*)
+      API calls:   66.85%  2.22748s     12000  185.62us  9.9780us  827.47us  cudaDeviceSynchronize
+                   25.94%  864.52ms     12000  72.043us  54.713us  2.1915ms  cudaLaunchKernel
+                    7.13%  237.60ms         5  47.520ms  11.886us  235.97ms  cudaMallocManaged
+                    0.05%  1.7791ms         5  355.81us  26.223us  1.0047ms  cudaFree
+                    0.02%  665.59us       194  3.4300us     204ns  152.90us  cuDeviceGetAttribute
+                    0.00%  69.158us         2  34.579us  29.305us  39.853us  cuDeviceGetName
+                    0.00%  14.622us         2  7.3110us  3.8190us  10.803us  cuDeviceGetPCIBusId
+                    0.00%  2.1820us         4     545ns     256ns  1.1220us  cuDeviceGet
+                    0.00%  1.9060us         3     635ns     228ns  1.0340us  cuDeviceGetCount
+                    0.00%  1.2400us         2     620ns     491ns     749ns  cuDeviceTotalMem
+                    0.00%     842ns         2     421ns     277ns     565ns  cuDeviceGetUuid
+
+==20933== Unified Memory profiling result:
+Device "NVIDIA GeForce GTX 980 (0)"
+   Count  Avg Size  Min Size  Max Size  Total Size  Total Time  Name
+       5  947.20KB  8.0000KB  1.6250MB  4.625000MB  1.732672ms  Host To Device
+      68  105.23KB  4.0000KB  636.00KB  6.988281MB  2.817856ms  Device To Host
+Total CPU Page faults: 34
