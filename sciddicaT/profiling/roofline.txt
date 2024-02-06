@@ -1,0 +1,36 @@
+CUDA shmembench (shared memory bandwidth microbenchmark)
+------------------------ Device specifications ------------------------
+Device:              NVIDIA GeForce GTX 980
+CUDA driver version: 11.50
+GPU clock rate:      1215 MHz
+Memory clock rate:   1752 MHz
+Memory bus width:    256 bits
+WarpSize:            32
+L2 cache size:       2048 KB
+Total global mem:    4042 MB
+ECC enabled:         No
+Compute Capability:  5.2
+Total SPs:           2048 (16 MPs x 128 SPs/MP)
+Compute throughput:  4978.69 GFlops (theoretical single precision FMAs)
+Memory bandwidth:    224.32 GB/sec
+-----------------------------------------------------------------------
+Total GPU memory 4238868480, free 4165206016
+Buffer sizes: 8MB
+Kernel execution time
+        benchmark_shmem  (32bit):    42.595 msecs
+        benchmark_shmem  (64bit):    40.565 msecs
+        benchmark_shmem (128bit):    39.438 msecs
+Total operations executed
+        shared memory traffic    :          86 GB
+        shared memory operations : 21487419392 operations (32bit)
+        shared memory operations : 10743709696 operations (64bit)
+        shared memory operations :  5371854848 operations (128bit)
+Memory throughput
+        using  32bit operations   : 2017.85 GB/sec (504.46 billion accesses/sec)
+        using  64bit operations   : 2118.80 GB/sec (264.85 billion accesses/sec)
+        using 128bit operations   : 2179.34 GB/sec (136.21 billion accesses/sec)
+        peak operation throughput :  504.46 Giga ops/sec
+Normalized per SM
+        shared memory operations per clock (32bit) :  415.02 (per SM 25.94)
+        shared memory operations per clock (64bit) :  217.89 (per SM 13.62)
+        shared memory operations per clock (128bit):  112.06 (per SM  7.00)

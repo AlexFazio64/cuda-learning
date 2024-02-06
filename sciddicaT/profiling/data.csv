@@ -1,0 +1,13 @@
+Implementation,Timings [s],Block Size,Utilization [%],FLOPS
+Serial,57.459000,0x0,0
+Unified Memory,3.114000,8x8,58.83,860258
+Unified Memory,3.285000,16x32,
+Unified Memory,3.665000,32x16,
+Unified Memory,3.909000,32x32,
+Standard Memory,2.372000,8x8,59.07,860271
+Standard Memory,3.661000,16x32,
+Standard Memory,3.087000,32x16,
+Standard Memory,3.336000,32x32,
+Tiled (no halo),1.510000,8x8,98.42,753310
+Tiled (halo),1.507000,8x8,98.41,751659
+Tiled (large),2.303000,8x8,601920

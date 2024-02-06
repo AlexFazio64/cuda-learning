@@ -9,8 +9,7 @@ Releasing memory...
 ==21038== Profiling application: ./sciddicaT_standard ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000
 ==21038== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
- GPU activities:   51.15%  1.11853s      4000  279.63us  272.03us  660.90us  flowsComputationParallelized(int, int, double, int*, int*, double*, double*, double*, double, double, int, int, 
-int, int)                                                                                                                                                                                                       40.60%  887.91ms      4000  221.98us  208.61us  237.67us  widthUpdateParallelized(int, int, double, int*, int*, double*, double*, double*, int, int, int, int)
+ GPU activities:   51.15%  1.11853s      4000  279.63us  272.03us  660.90us  flowsComputationParallelized(int, int, double, int*, int*, double*, double*, double*, double, double, int, int, int, int)                                                                                                                                                                                                       40.60%  887.91ms      4000  221.98us  208.61us  237.67us  widthUpdateParallelized(int, int, double, int*, int*, double*, double*, double*, int, int, int, int)
                     7.92%  173.30ms      4000  43.324us  42.208us  47.424us  resetFlowsParallelized(int, int, double*)
                     0.28%  6.0803ms         5  1.2161ms  1.4400us  4.3505ms  [CUDA memcpy HtoD]
                     0.05%  1.0860ms         1  1.0860ms  1.0860ms  1.0860ms  [CUDA memcpy DtoH]
@@ -26,3 +25,28 @@ int, int)                                                                       
                     0.00%  1.6630us         3     554ns     216ns     800ns  cuDeviceGetCount
                     0.00%  1.1010us         2     550ns     397ns     704ns  cuDeviceTotalMem
                     0.00%     715ns         2     357ns     270ns     445ns  cuDeviceGetUuid
+
+nvcc sciddicaT_standard.cu -O3
+./a.out ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000 16 32 && md5sum ./tessina_output && cat ./data/tessina_header.txt ./tessina_output > 
+./tessina_output.qgis && rm ./tessina_output                                                                                                                                                  colonne: 496
+Grid: 39x16
+Block: 16x32
+Elapsed time: 3.661000 [s]
+Releasing memory...
+8ed78fa13180c12b4d8aeec7ce6a362a  ./tessina_output
+
+./a.out ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000 32 16 && md5sum ./tessina_output && cat ./data/tessina_header.txt ./tessina_output > 
+./tessina_output.qgis && rm ./tessina_output                                                                                                                                                  colonne: 496
+Grid: 20x31
+Block: 32x16
+Elapsed time: 3.087000 [s]
+Releasing memory...
+8ed78fa13180c12b4d8aeec7ce6a362a  ./tessina_output
+
+./a.out ./data/tessina_header.txt ./data/tessina_dem.txt ./data/tessina_source.txt ./tessina_output 4000 32 32 && md5sum ./tessina_output && cat ./data/tessina_header.txt ./tessina_output > 
+./tessina_output.qgis && rm ./tessina_output                                                                                                                                                  colonne: 496
+Grid: 20x16
+Block: 32x32
+Elapsed time: 3.336000 [s]
+Releasing memory...
+8ed78fa13180c12b4d8aeec7ce6a362a  ./tessina_output

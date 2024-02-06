@@ -79,18 +79,33 @@ Similarly, here we just need to change the block size to be larger than the tile
 
 _No implementation provided_ because of the lack of time.
 
-A possible implementation could be to use the MPI library to parallelize the algorithm across multiple nodes. This would require the use of the `MPI_Send` and `MPI_Recv` functions to send and receive the data between the nodes, and the use of the `MPI_Barrier` function to synchronize the nodes. We can simply divide the grid equally among the devices and let each device compute the cells
-in the tile taking care of the halo cells.
+A possible implementation could be to use the MPI library to parallelize the algorithm across multiple nodes. This would require the use of the `MPI_Send` and `MPI_Recv` functions to send and receive the data between the nodes, and the use of the `MPI_Barrier` function to synchronize the nodes. We can simply divide the grid equally among the devices and let each device compute the cells in the tile taking care of the halo cells.
 
 ## 3. Results
 
-The results of the parallel implementations will be compared with the serial implementation. The performance will be evaluated using the `nvprof` tool, and the correctness will be evaluated using the provided test cases.
+The results of the parallel implementations will be compared with the serial implementation. The performance will be evaluated using the `nvprof` tool, and the correctness will be evaluated using the provided test cases. The plots will be generated using the `matplotlib` library.[^1].
 
-(fare grafico a barre con tempi di esecuzione)
-(fare tabelle con speedup e utilizzo)
-(fare roofline model in qualche modo)
+![timings](image.png)
+
+The results show that the parallel implementations are faster than the serial one, and that the Tiled (no halo) has the best performance. The correctness of the results is also guaranteed, as the md5 hash of the result matches the expected one.
+
+![occupancy](image-1.png)
+
+Here we can see the occupancy of the kernels. The occupancy is the ratio of the active warps to the maximum number of warps that can be active on a multiprocessor. The occupancy is an important metric, as it indicates how well the kernel is utilizing the resources of the GPU. Again, the Tiled (no halo) has the best performance, as it has the highest occupancy (it's a tie with the Tiled (with halo)). The Straightforward (Unified) has the lowest occupancy, as it does not take advantage of the shared memory, as expected.
+
+![speedup](image-2.png)
+
+The speedup is the ratio of the time taken by the serial implementation to the time taken by the parallel implementation. The speedup is an important metric, as it indicates how much faster the parallel implementation is compared to the serial one. The Tiled (no halo) has the best performance, as it has the highest speedup.
+
+[^1]: The missing timings are a result of the lack of time to properly implement the task, as such the md5 hash of the result does not match the expected one.
+
+![roofline](LcBGnMbUXN.png)
+![legend](aEDVCYdwDx.png)
+
+From the graph, it can be seen that all kernels are very much "bandwidth bound". In other words, the bandwidth used by the kernels acts as a bottleneck for the overall performance of the algorithm. The kernels simply do not use a sufficient amount of data to reach the theoretical peak performance of the GPU. As already mentioned several times, the domain of sciddicaT is relatively small in size, especially for a powerful GPU like the GTX 980.
+
+Also an important clarification is that assessing the performance of the kernels was performed on a different number of iterations as it was unfeasible to run the kernels on the same number of iterations as the serial implementation. That would explain why the best performing kernel in terms of speedup is not the best performing kernel in terms of absolute time and occupancy.
 
 ## 4. Conclusion
 
-(fare conclusioni sulle performance e sulla correttezza dei risultati)
-(tradurre in latex o PDF)
+The parallel implementations are faster than the serial one, and the correctness of the results is guaranteed for most configurations of Block Size. The difficulty of this task was mainly the lack of time for each implementations, as such the md5 hash of the result does not match the expected one for a few implementations. It was a hard time trying to debug why and I've yet to find the reason. The Tiled (no halo) has the best performance, as it has the highest occupancy and speedup. The Straightforward (Unified) has the lowest occupancy, as it does not take advantage of the shared memory. It was a very interesting project, and I learned a lot about parallel programming and CUDA. The main takeaway is that the hardest part of parallelizing an algorithm is to take advantage of the resources of the GPU. The trick is to map efficiently the data to the threads, and avoid at all costs expensive memory accesses. It was very satisfying to see the performance of the parallel implementations, and to compare them with the serial one.
