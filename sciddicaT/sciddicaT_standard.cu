@@ -11,13 +11,13 @@ using namespace std;
 #define SOURCE_PATH_ID 3
 #define OUTPUT_PATH_ID 4
 #define STEPS_ID 5
+#define BLOCK_X_SIZE 6
+#define BLOCK_Y_SIZE 7
 
 #define P_R 0.5
 #define P_EPSILON 0.001
 #define SIZE_OF_X 5
 #define STRLEN 256
-
-#define BLOCK_SIZE 16
 
 #define SET(M, columns, i, j, value) ((M)[(((i) * (columns)) + (j))] = (value))
 #define GET(M, columns, i, j) (M[(((i) * (columns)) + (j))])
@@ -277,9 +277,11 @@ int main(int argc, char **argv) {
 
   util::Timer cl_timer;
 
-  double dimB = 8.0f;
-  dim3 dimGrid(ceil(r / dimB), ceil(c / dimB), 1);
-  dim3 dimBlock(dimB, dimB, 1);
+  double block_X = atoi(argv[BLOCK_X_SIZE]);
+  double block_Y = atoi(argv[BLOCK_Y_SIZE]);
+
+  dim3 dimGrid(ceil(r / block_X), ceil(c / block_Y), 1);
+  dim3 dimBlock(block_X, block_Y, 1);
 
   printf("colonne: %d\n", c);
   printf("Grid: %dx%d\n", dimGrid.x, dimGrid.y);

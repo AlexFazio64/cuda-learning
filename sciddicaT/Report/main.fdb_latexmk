@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1707375186 "d:/AlexFazio64/Dev/c++/GPGPU/sciddicaT/Report/main.tex" "main.pdf" "main" 1707375187 0
+["pdflatex"] 1707376204 "d:/AlexFazio64/Dev/c++/GPGPU/sciddicaT/Report/main.tex" "main.pdf" "main" 1707376205 0
   "C:/Users/alexf/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1707373797 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/alexf/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1665848519 10788011 0d0804279bb50b5c6fbaac1d5b7ca009 ""
   "C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmbx10.tfm" 1136765053 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -41,8 +41,8 @@
   "C:/Users/alexf/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty" 1665067579 4023 293ea1c16429fc0c4cf605f4da1791a9 ""
   "C:/Users/alexf/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1664388628 30426 b4bd1ea7df6c51902df8edf551809fb7 ""
   "C:/Users/alexf/AppData/Local/Programs/MiKTeX/tex/latex/titlesec/titlesec.sty" 1699094857 48766 0b93839be28e9744a24c45075c75b2e2 ""
-  "d:/AlexFazio64/Dev/c++/GPGPU/sciddicaT/Report/main.tex" 1707374651 10447 db295575f4f6ad5215294792fd7f20ba ""
-  "main.aux" 1707375187 1847 89cdb1cbf3018518eabdb106a7ac80c0 "pdflatex"
+  "d:/AlexFazio64/Dev/c++/GPGPU/sciddicaT/Report/main.tex" 1707376201 10448 dfd3a48b4d966b5df6db3487acc731b2 ""
+  "main.aux" 1707376205 1847 89cdb1cbf3018518eabdb106a7ac80c0 "pdflatex"
   "pics/legend.png" 1707252234 28052 8818cdaf9d85997fe772b2a89ff2067b ""
   "pics/occupancy.png" 1707251600 30982 cafdd2d5ec672daaea24315602037568 ""
   "pics/roofline.png" 1707252101 21622 4c9148917840f18f388d25c2cc1c8c7b ""

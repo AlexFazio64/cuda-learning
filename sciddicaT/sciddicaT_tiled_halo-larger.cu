@@ -23,7 +23,6 @@
   (M[(((n) * (rows) * (columns)) + ((i) * (columns)) + (j))])
 
 #define TILE_WIDTH 8
-#define HALO_LENGTH 2
 
 void readHeaderInfo(char *path, int &nrows, int &ncols, double &nodata) {
   FILE *f;
@@ -137,7 +136,7 @@ __global__ void flowsComputationParallelized(int r, int c, int i_start,
 
     __shared__ double Sz_shared[TILE_WIDTH][TILE_WIDTH];
     __shared__ double Sh_shared[TILE_WIDTH][TILE_WIDTH];
-
+    
     Sz_shared[ty][tx] = GET(Sz_h, c, i, j);
     Sh_shared[ty][tx] = GET(Sh_h, c, i, j);
     __syncthreads();
