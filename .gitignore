@@ -7,3 +7,11 @@ GPGPU.code-workspace
 
 /**/output/
 heatTransfer/original.cu
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.synctex(busy)
