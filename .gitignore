@@ -9,9 +9,9 @@ GPGPU.code-workspace
 heatTransfer/original.cu
 
 # LaTeX
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.synctex.gz
-*.synctex(busy)
+/**/*.aux
+/**/*.fdb_latexmk
+/**/*.fls
+/**/*.log
+/**/*.synctex.gz
+/**/*.synctex(busy)

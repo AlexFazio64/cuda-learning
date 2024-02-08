@@ -85,22 +85,22 @@ A possible implementation could be to use the MPI library to parallelize the alg
 
 The results of the parallel implementations will be compared with the serial implementation. The performance will be evaluated using the `nvprof` tool, and the correctness will be evaluated using the provided test cases. The plots will be generated using the `matplotlib` library.[^1].
 
-![timings](image.png)
+![timings](./Report/pics/timigs.png)
 
 The results show that the parallel implementations are faster than the serial one, and that the Tiled (no halo) has the best performance. The correctness of the results is also guaranteed, as the md5 hash of the result matches the expected one.
 
-![occupancy](image-1.png)
+![occupancy](./Report/pics/occupancy.png)
 
 Here we can see the occupancy of the kernels. The occupancy is the ratio of the active warps to the maximum number of warps that can be active on a multiprocessor. The occupancy is an important metric, as it indicates how well the kernel is utilizing the resources of the GPU. Again, the Tiled (no halo) has the best performance, as it has the highest occupancy (it's a tie with the Tiled (with halo)). The Straightforward (Unified) has the lowest occupancy, as it does not take advantage of the shared memory, as expected.
 
-![speedup](image-2.png)
+![speedup](./Report/pics/speedup.png)
 
 The speedup is the ratio of the time taken by the serial implementation to the time taken by the parallel implementation. The speedup is an important metric, as it indicates how much faster the parallel implementation is compared to the serial one. The Tiled (no halo) has the best performance, as it has the highest speedup.
 
 [^1]: The missing timings are a result of the lack of time to properly implement the task, as such the md5 hash of the result does not match the expected one.
 
-![roofline](LcBGnMbUXN.png)
-![legend](aEDVCYdwDx.png)
+![roofline](./Report/pics/roofline.png)
+![legend](./Report/pics/legend.png)
 
 From the graph, it can be seen that all kernels are very much "bandwidth bound". In other words, the bandwidth used by the kernels acts as a bottleneck for the overall performance of the algorithm. The kernels simply do not use a sufficient amount of data to reach the theoretical peak performance of the GPU. As already mentioned several times, the domain of sciddicaT is relatively small in size, especially for a powerful GPU like the GTX 980.
 
