@@ -3,12 +3,12 @@
 % Packages
 \usepackage{titlesec}
 \usepackage{graphicx}
-\usepackage{lipsum} % For dummy text, you can remove this package
+\usepackage{float}
 
 % Title
 \title{GPGPU: Parallelization of the sciddicaT model using CUDA}
-\author{Alessandro Fazio}
-\date{\today}
+\author{Alessandro Fazio - 242422}
+\date{\vfill\today}
 
 % Section numbering
 \setcounter{secnumdepth}{4}
@@ -19,9 +19,8 @@
 \titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
 
 \begin{document}
-
 \maketitle
-
+\newpage
 
 \section{Abstract}
 The assignment of this project is to parallelize the sciddicaT model using CUDA. The sciddicaT model is a cellular automaton that uses the minimization of differences to simulate non-inertial landslides. The serial implementation is provided, along with a set of test cases. The goal is to parallelize the model using CUDA, and to compare the performance of the parallel implementation with the serial one.
@@ -56,6 +55,8 @@ where:
 
 The transition function can be found in the provided serial implementation.
 
+\newpage
+
 \section{Implementations}
 The assignment requires the parallelization of the algorithm through different CUDA implementations. I will provide a brief description of each implementation. 
 An interesting point of modification is to reset the flows to zero at each iteration, as it is not necessary to keep the flows from the previous iteration. This can be done by adding a \texttt{reset\_flows} function that sets the \texttt{flow} field of each cell to zero.
@@ -73,6 +74,8 @@ This task is similar to the previous one, but it requires the use of the \texttt
 Namely a CUDA shared memory based tiled parallelization without halo cells.
 This task is a great example of caching data in the shared memory, as it requires the use of the shared memory to store the cells of the tile. Caching the data in the shared memory allows for a faster access to the data, as the shared memory is much faster than the global memory. To achieve this, we need to use the \texttt{\_\_shared\_\_} keyword to define the shared memory, and to copy the data from the global memory to the shared memory. We also need to use the \texttt{\_\_syncthreads} function to synchronize the threads in the block, as the shared memory is only visible to the threads in the same block.
 
+\newpage
+
 \subsection{Tiled\_with\_halos}
 Namely a CUDA tiled parallelization in which block’s boundary threads perform extra work to copy halo cells from adjacent tiles in the shared memory.
 This task is similar to the previous one, but it requires the use of halo cells. Halo cells are the cells that are shared between the tiles, and they are necessary to compute the cells in the tile. To achieve this, we need to copy the halo cells from the adjacent tiles to the shared memory, and to perform the computation using the halo cells.
@@ -82,31 +85,65 @@ amely a CUDA tiled parallelization in which the block size is larger than the ti
 Similarly, here we just need to change the block size to be larger than the tile size. Unfortunately, I did not have time to properly implement this task. As a result the md5 hash of the result does not match the expected one, but the workflow is very similar to the previous task.
 
 \subsection{Tiled\_with\_halos\_larger\_block\_MPI}
-
 \textit{No implementation provided} because of the lack of time.
 A possible implementation could be to use the MPI library to parallelize the algorithm across multiple nodes. This would require the use of the \texttt{MPI\_Send} and \texttt{MPI\_Recv} functions to send and receive the data between the nodes, and the use of the \texttt{MPI\_Barrier} function to synchronize the nodes. We can simply divide the grid equally among the devices and let each device compute the cells in the tile taking care of the halo cells.
 
+\newpage
 
 \section{Results}
 The results of the parallel implementations will be compared with the serial implementation. The performance will be evaluated using the \texttt{nvprof} tool, and the correctness will be evaluated using the provided test cases. The plots will be generated using the \texttt{matplotlib} library\footnote{The missing timings are a result of the lack of time to properly implement the task, as such the md5 hash of the result does not match the expected one.}.
 
-\begin{figure}[htp]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../image-1.png}
-	\caption{timings for the implementations}
+	\includegraphics[width=0.6\textwidth]{./pics/timigs.png}
+	% \caption{timings for the implementations}
 	\label{fig:timings}
 \end{figure}
 
 The results show that the parallel implementations are faster than the serial one, and that the Tiled (no halo) has the best performance. The correctness of the results is also guaranteed, as the md5 hash of the result matches the expected one.
 
-\begin{figure}[htp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../image-2.png}
-    \caption{speedups for the implementations}
-    \label{fig:speedups}
+    \includegraphics[width=0.65\textwidth]{./pics/occupancy.png}
+    % \caption{occupancy for the implementations}
+    \label{fig:occupancy}
 \end{figure}
 
+Here we can see the occupancy of the kernels. The occupancy is the ratio of the active warps to the maximum number of warps that can be active on a multiprocessor. The occupancy is an important metric, as it indicates how well the kernel is utilizing the resources of the GPU. Again, the Tiled (no halo) has the best performance, as it has the highest occupancy (it's a tie with the Tiled (with halo)). The Straightforward (Unified) has the lowest occupancy, as it does not take advantage of the shared memory, as expected.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{./pics/speedup.png}
+    % \caption{speedups for the implementations}
+    \label{fig:speedups}
+\end{figure}
+The speedup is the ratio of the time taken by the serial implementation to the time taken by the parallel implementation. The speedup is an important metric, as it indicates how much faster the parallel implementation is compared to the serial one. The Tiled (no halo) has the best performance, as it has the highest speedup.
+\newpage
+
+\section{Roofline Model}
+\begin{figure}[H]
+	\begin{minipage}[t]{0.55\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./pics/roofline.png}
+		\caption{Roofline model for the implementations}
+		\label{fig:roofline}
+	\end{minipage}\hfill
+	\begin{minipage}[t]{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./pics/legend.png}
+		\caption{legend}
+		\label{fig:legend}
+	\end{minipage}
+\end{figure}
+
+From the graph, it can be seen that all kernels are very much "bandwidth bound". In other words, the bandwidth used by the kernels acts as a bottleneck for the overall performance of the algorithm. The kernels simply do not use a sufficient amount of data to reach the theoretical peak performance of the GPU. As already mentioned several times, the domain of sciddicaT is relatively small in size, especially for a powerful GPU like the GTX 980.
+
+\subsection{Comments}
+An important clarification is that assessing the performance of the kernels was performed on a different number of iterations as it was unfeasible to run the kernels on the same number of iterations as the serial implementation. That would explain why the best performing kernel in terms of speedup is not the best performing kernel in terms of absolute time and occupancy.
+
+\newpage
+
 \section{Conclusion}
-\lipsum[9]
+The parallel implementations are faster than the serial one, and the correctness of the results is guaranteed for most configurations of Block Size. The difficulty of this task was mainly the lack of time for each implementations, as such the md5 hash of the result does not match the expected one for a few implementations. It was a hard time trying to debug why and I've yet to find the reason. The Tiled (no halo) has the best performance, as it has the highest occupancy and speedup. The Straightforward (Unified) has the lowest occupancy, as it does not take advantage of the shared memory. It was a very interesting project, and I learned a lot about parallel programming and CUDA. The main takeaway is that the hardest part of parallelizing an algorithm is to take advantage of the resources of the GPU. The trick is to map efficiently the data to the threads, and avoid at all costs expensive memory accesses. It was very satisfying to see the performance of the parallel implementations and to compare them with the serial one using tried and true technologies like CUDA and \texttt{nvprof}.
 
 \end{document}

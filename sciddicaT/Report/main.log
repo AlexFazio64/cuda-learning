@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.15)  6 FEB 2024 22:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.15)  8 FEB 2024 07:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -53,20 +53,18 @@ File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen146
 \Gin@req@width=\dimen147
-) (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.sty (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3keys2e.sty (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
-Package: expl3 2022-09-28 L3 programming layer (loader) 
- (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+) (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count193
+\float@exts=\toks18
+\float@box=\box52
+\@float@everytoks=\toks19
+\@floatcapt=\box53
+) (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-09-28 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count193
-\l__pdf_internal_box=\box52
-))
-Package: l3keys2e 2022-06-22 LaTeX2e option processing using LaTeX3 keys
-)
-Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count194
-\l__lipsum_a_int=\count195
-\l__lipsum_b_int=\count196
- (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.ltd.tex)) (main.aux)
+\l__color_backend_stack_int=\count194
+\l__pdf_internal_box=\box54
+) (main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -85,17 +83,17 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
  (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count197
+\scratchcounter=\count195
 \scratchdimen=\dimen148
-\scratchbox=\box53
-\nofMPsegments=\count198
-\nofMParguments=\count199
-\everyMPshowfont=\toks18
-\MPscratchCnt=\count266
+\scratchbox=\box55
+\nofMPsegments=\count196
+\nofMParguments=\count197
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count198
 \MPscratchDim=\dimen149
-\MPnumerator=\count267
-\makeMPintoPDFobject=\count268
-\everyMPtoPDFconversion=\toks19
+\MPnumerator=\count199
+\makeMPintoPDFobject=\count266
+\everyMPtoPDFconversion=\toks21
 ) (C:\Users\alexf\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -103,41 +101,59 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 23.
+(Font)              <12> on input line 22.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 23.
+(Font)              <8> on input line 22.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 23.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 32.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 32.
+(Font)              <6> on input line 22.
  [1
 
-{C:/Users/alexf/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
-<../image-1.png, id=15, 691.58376pt x 529.98pt>
-File: ../image-1.png Graphic file (type png)
-<use ../image-1.png>
-Package pdftex.def Info: ../image-1.png  used on input line 95.
-(pdftex.def)             Requested size: 276.00105pt x 211.51111pt.
-<../image-2.png, id=16, 669.50125pt x 630.355pt>
-File: ../image-2.png Graphic file (type png)
-<use ../image-2.png>
-Package pdftex.def Info: ../image-2.png  used on input line 104.
-(pdftex.def)             Requested size: 276.00105pt x 259.87074pt.
- [3] [4 <../image-1.png> <../image-2.png>] [5] (main.aux) ) 
+{C:/Users/alexf/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 31.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 31.
+ [2] [3] [4]
+<./pics/timigs.png, id=22, 685.56125pt x 630.355pt>
+File: ./pics/timigs.png Graphic file (type png)
+<use ./pics/timigs.png>
+Package pdftex.def Info: ./pics/timigs.png  used on input line 98.
+(pdftex.def)             Requested size: 207.0021pt x 190.3295pt.
+<./pics/occupancy.png, id=23, 691.58376pt x 529.98pt>
+File: ./pics/occupancy.png Graphic file (type png)
+<use ./pics/occupancy.png>
+Package pdftex.def Info: ./pics/occupancy.png  used on input line 107.
+(pdftex.def)             Requested size: 224.2479pt x 171.8452pt.
+ [5 <./pics/timigs.png> <./pics/occupancy.png>]
+<./pics/speedup.png, id=30, 669.50125pt x 630.355pt>
+File: ./pics/speedup.png Graphic file (type png)
+<use ./pics/speedup.png>
+Package pdftex.def Info: ./pics/speedup.png  used on input line 116.
+(pdftex.def)             Requested size: 224.2479pt x 211.13416pt.
+ [6 <./pics/speedup.png>]
+<./pics/roofline.png, id=34, 313.77225pt x 266.79675pt>
+File: ./pics/roofline.png Graphic file (type png)
+<use ./pics/roofline.png>
+Package pdftex.def Info: ./pics/roofline.png  used on input line 127.
+(pdftex.def)             Requested size: 189.75105pt x 161.34535pt.
+<./pics/legend.png, id=36, 313.77225pt x 157.7895pt>
+File: ./pics/legend.png Graphic file (type png)
+<use ./pics/legend.png>
+Package pdftex.def Info: ./pics/legend.png  used on input line 133.
+(pdftex.def)             Requested size: 120.7521pt x 60.72386pt.
+ [7 <./pics/roofline.png> <./pics/legend.png>] [8] (main.aux) ) 
 Here is how much of TeX's memory you used:
- 2080 strings out of 475385
- 37766 string characters out of 2776906
- 471489 words of memory out of 3000000
- 23471 multiletter control sequences out of 15000+600000
+ 1735 strings out of 475385
+ 28547 string characters out of 2776906
+ 375040 words of memory out of 3000000
+ 23133 multiletter control sequences out of 15000+600000
  474028 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,8n,77p,698b,224s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 55i,8n,62p,1185b,278s stack positions out of 10000i,1000n,20000p,200000b,80000s
 <C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alexf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (5 pages, 206789 bytes).
+Output written on main.pdf (8 pages, 289143 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 92 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
